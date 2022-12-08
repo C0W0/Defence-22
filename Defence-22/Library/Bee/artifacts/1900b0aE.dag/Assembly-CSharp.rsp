@@ -378,6 +378,8 @@
 "Assets/Scripts/EventManager.cs"
 "Assets/Scripts/GameEvents.cs"
 "Assets/Scripts/GameManager.cs"
+"Assets/Scripts/MainGridSystem.cs"
+"Assets/Scripts/TestObject.cs"
 -langversion:9.0
 
 /deterministic
