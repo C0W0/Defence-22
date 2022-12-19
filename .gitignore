@@ -9,6 +9,7 @@
 /Defence-22/[Bb]uilds/
 /Defence-22/[Ll]ogs/
 /Defence-22/[Mm]emoryCaptures/
+/Defence-22/[Uu]ser[Ss]ettings/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/Defence-22/[Aa]ssets/**/*.meta

@@ -1,0 +1,32 @@
+﻿<Properties StartupConfiguration="{488E742D-EA44-1B13-4F77-75D08E726320}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BuildingGridSytem.cs">
+    <Files>
+      <File FileName="Assets/Scripts/MainGridSystem.cs" Line="87" Column="3" IsPinned="True" />
+      <File FileName="Assets/Scripts/BuildingGridSytem.cs" Line="13" Column="4" IsPinned="True" />
+      <File FileName="Assets/Scripts/TestObject.cs" Line="35" Column="1" />
+      <File FileName="Assets/Scripts/EventManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameEvents.cs" />
+      <File FileName="Assets/Scripts/GameManager.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Defence-22" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="BuildingGridSytem.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="e933b4ac-ce8e-4933-95af-7d321c75f384" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

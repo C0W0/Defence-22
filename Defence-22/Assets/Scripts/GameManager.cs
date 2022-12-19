@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     
     public GameObject canvas;
 
+
     private void Awake()
     {
         Instance = this;
