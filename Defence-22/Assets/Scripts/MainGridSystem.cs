@@ -53,6 +53,7 @@ public class MainGridSystem : MonoBehaviour
 	public Tilemap mainTilemap;
 	public TileBase navTileNorth, navTileSouth, navTileEast, navTileWest;
 
+
 	private Dictionary<TileBase, NavDirection> _tileDirections;
 
 	private void Awake()
@@ -76,13 +77,16 @@ public class MainGridSystem : MonoBehaviour
 	void Update()
 	{
 
+
 	}
 
 	public NavDirection GetTileNavDirection(Vector3Int gridCellPos)
 	{
+		//GetTile gives you the tile at that location.
 		TileBase tile = mainTilemap.GetTile(new Vector3Int(gridCellPos.x, gridCellPos.y, 0));
 		
 		NavDirection direction;
+		//maps tile to direction.
 		if (_tileDirections.TryGetValue(tile, out direction))
 		{
 			return direction;
@@ -91,6 +95,7 @@ public class MainGridSystem : MonoBehaviour
 		return NavDirection.Default;
 	}
 
+	
 	public NavDirection GetTileNavDirection(Vector2 objectPos)
 	{
 		Vector3Int gridCellPos = gridLayout.LocalToCell(objectPos);
