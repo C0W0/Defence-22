@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class BuildingPlaceable : MonoBehaviour
 {
-	[SerializeField]
-	private Transform gridRefTransform;
-
 	[HideInInspector]
 	public bool isPlaced;
 
@@ -22,7 +19,7 @@ public class BuildingPlaceable : MonoBehaviour
 		transform.position = Vector3.zero;
 
 		Vector2 centre = transform.position;
-		_bounds = new Bounds(centre, GetComponent<SpriteRenderer>().sprite.bounds.size);
+		_bounds = new Bounds(centre, GetComponentInChildren<SpriteRenderer>().sprite.bounds.size);
 
 		BuildingTooltip.Instance.ShowTooltip(this);
 	}
@@ -43,7 +40,11 @@ public class BuildingPlaceable : MonoBehaviour
 			if (_isDragging)
 			{
 				Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				transform.position = mousePos;
+				
+				// do a world-to-cell conversion to get the grid location
+				// then do a cell-to-local to convert the grid location back to world to snap the building to a grid
+				Vector3Int cellPos = BuildingSystem.Instance.gridLayout.WorldToCell(mousePos);
+				transform.position = BuildingSystem.Instance.gridLayout.CellToLocalInterpolated(cellPos);
 			}
 
 			return;
@@ -93,12 +94,12 @@ public class BuildingPlaceable : MonoBehaviour
 
 	private bool TryPlaceBuilding()
 	{
-		if (BuildingSystem.Instance.IsTaken(gridRefTransform.position))
+		if (BuildingSystem.Instance.IsTaken(transform.position))
 		{
 			return false;
 		}
 
-		BuildingSystem.Instance.PlaceBuilding(gridRefTransform.position);
+		BuildingSystem.Instance.PlaceBuilding(transform.position);
 		isPlaced = true;
 
 		return true;
