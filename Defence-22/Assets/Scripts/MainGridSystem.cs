@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 
 public class TileMapUtils
 {
-	private static TileBase[] GetTilesBlock(BoundsInt area, Tilemap tilemap)
+	public static TileBase[] GetTilesBlock(BoundsInt area, Tilemap tilemap)
 	{
 		TileBase[] tileBlock = new TileBase[area.size.x * area.size.y];
 		int i = 0;
@@ -20,17 +20,17 @@ public class TileMapUtils
 		return tileBlock;
 	}
 
-	private static void SetTilesBlock(BoundsInt area, Tilemap tilemap, TileBase tileBase)
+	public static void SetTilesBlock(BoundsInt area, Tilemap tilemap, TileBase tileBase)
 	{
 		TileBase[] tileBlock = new TileBase[area.size.x * area.size.y];
-		FillTiles(tileBlock, tileBase);
+		CreateTileBlock(tileBlock, tileBase);
 		tilemap.SetTilesBlock(area, tileBlock);
 	}
 
-	private static void FillTiles(TileBase[] tileBlock, TileBase tileBase)
+	public static void CreateTileBlock(TileBase[] outTileBlock, TileBase tileBase)
 	{
-		for (int i = 0; i < tileBlock.Length; i++)
-			tileBlock[i] = tileBase;
+		for (int i = 0; i < outTileBlock.Length; i++)
+			outTileBlock[i] = tileBase;
 	}
 
 	public static void ClearArea(BoundsInt area, Tilemap tilemap)

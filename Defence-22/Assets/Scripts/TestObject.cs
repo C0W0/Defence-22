@@ -22,14 +22,14 @@ public class TestObject : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             print(MainGridSystem.Instance.GetTileNavDirection(transform.position));
-            transform.Translate(new Vector3(0, 0.1f, 0));
-
         }
-
-
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.C))
         {
-            Debug.Log(BuildingGridSytem.Instance.IsTaken(transform.position));
+            BuildingSystem.Instance.RemoveBuilding(transform.position);
+        }
+        else if (Input.GetKeyDown(KeyCode.V))
+        {
+            BuildingSystem.Instance.PlaceBuilding(transform.position);
         }
 
 
