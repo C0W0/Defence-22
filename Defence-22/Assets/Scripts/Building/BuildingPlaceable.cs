@@ -5,78 +5,102 @@ using UnityEngine;
 
 public class BuildingPlaceable : MonoBehaviour
 {
-    [HideInInspector]
-    public bool isPlaced;
+	[SerializeField]
+	private Transform gridRefTransform;
 
-    private Bounds _bounds;
-    private bool _isSelected;
+	[HideInInspector]
+	public bool isPlaced;
 
-    private void Awake()
-    {
-        isPlaced = false;
-        _isSelected = false;
-        
-        transform.position = Vector3.zero;
-        
-        Vector2 centre = transform.position;
-        _bounds = new Bounds(centre, GetComponent<SpriteRenderer>().sprite.bounds.size);
-    }
+	private Bounds _bounds;
+	private bool _isDragging;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	private void Awake()
+	{
+		isPlaced = false;
+		_isDragging = false;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (!isPlaced)
-        {
-            UpdateSelected();
-            
-            if (_isSelected)
-            {
-                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                transform.position = mousePos;
-            }
-            
-            return;
-        }
-    }
+		transform.position = Vector3.zero;
 
-    private void UpdateSelected()
-    {
-        if (_isSelected && Input.GetMouseButtonUp(0))
-        {
-            _isSelected = false;
-            
-            Vector2 centre = transform.position;
-            _bounds = new Bounds(centre, _bounds.size);
-            
-            return;
-        }
+		Vector2 centre = transform.position;
+		_bounds = new Bounds(centre, GetComponent<SpriteRenderer>().sprite.bounds.size);
 
-        if (!_isSelected && Input.GetMouseButtonDown(0))
-        {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (_bounds.Contains(mousePos))
-            {
-                _isSelected = true;
-            }
-        }
-    }
+		BuildingTooltip.Instance.ShowTooltip(this);
+	}
 
-    private bool TryPlaceBuilding()
-    {
-        if (BuildingSystem.Instance.IsTaken(transform.position))
-        {
-            return false;
-        }
+	// Start is called before the first frame update
+	void Start()
+	{
 
-        BuildingSystem.Instance.PlaceBuilding(transform.position);
-        isPlaced = true;
-        
-        return true;
-    }
+	}
+
+	// Update is called once per frame
+	void Update()
+	{
+		if (!isPlaced)
+		{
+			UpdateSelected();
+
+			if (_isDragging)
+			{
+				Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				transform.position = mousePos;
+			}
+
+			return;
+		}
+	}
+
+	private void UpdateSelected()
+	{
+		if (_isDragging && Input.GetMouseButtonUp(0))
+		{
+			_isDragging = false;
+
+			// when mouse up, move the bounds to the location of the building
+			Vector2 centre = transform.position;
+			_bounds = new Bounds(centre, _bounds.size);
+
+			// show tooltip when the building not being dragged
+			BuildingTooltip.Instance.ShowTooltip(this);
+
+			return;
+		}
+
+		if (!_isDragging && Input.GetMouseButtonDown(0))
+		{
+			Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			if (_bounds.Contains(mousePos))
+			{
+				_isDragging = true;
+
+				// hide tooltip when dragging the building
+				BuildingTooltip.Instance.HideTooltip();
+			}
+		}
+	}
+
+	public void Place()
+	{
+		if (TryPlaceBuilding())
+		{
+			BuildingTooltip.Instance.HideTooltip();
+		}
+		else
+		{
+			print("Cannot deploy here");
+		}
+	}
+
+	private bool TryPlaceBuilding()
+	{
+		if (BuildingSystem.Instance.IsTaken(gridRefTransform.position))
+		{
+			return false;
+		}
+
+		BuildingSystem.Instance.PlaceBuilding(gridRefTransform.position);
+		isPlaced = true;
+
+		return true;
+	}
 }
