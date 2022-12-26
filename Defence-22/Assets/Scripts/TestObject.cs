@@ -21,7 +21,7 @@ public class TestObject : MonoBehaviour
        
         if (Input.GetKeyDown(KeyCode.K))
         {
-            print(MainGridSystem.Instance.GetTileNavDirection(transform.position));
+            print(NavigationSystem.Instance.GetTileNavDirection(transform.position));
         }
         if (Input.GetKeyDown(KeyCode.C))
         {

@@ -41,7 +41,7 @@ public class BuildingSystem : MonoBehaviour
     public bool IsTaken(Vector2 objPos)
     {
         Vector3Int position = gridLayout.LocalToCell(objPos);
-        return takenTile == buildingGridMap.GetTile(position);
+        return (bool)buildingGridMap.GetTile(position);
     }
 
     public void PlaceBuilding(Vector2 objPos)

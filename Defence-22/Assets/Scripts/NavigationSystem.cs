@@ -41,30 +41,76 @@ public class TileMapUtils
 
 public enum NavDirection
 {
-	North, South, East, West, Default
+	North, South, East, West, 
+	NToW, EToN, SToE, WToS, NToE, WToN, SToW, EToS,
+	Default
 }
 
-public class MainGridSystem : MonoBehaviour
+public class NavigationSystem : MonoBehaviour
 {
 
-	public static MainGridSystem Instance;
+	public static NavigationSystem Instance;
 
 	public GridLayout gridLayout;
 	public Tilemap mainTilemap;
 	public TileBase navTileNorth, navTileSouth, navTileEast, navTileWest;
+	// turing tiles
+	public TileBase navTileNToW, navTileEToN, navTileSToE, navTileWToS;
+	public TileBase navTileNToE, navTileWToN, navTileSToW, navTileEToS;
 
 
-	private Dictionary<TileBase, NavDirection> _tileDirections;
+	private Dictionary<TileBase, NavDirection> _tileDirectionsStraight;
+	private Dictionary<TileBase, NavDirection> _tileDirectionsTurn;
 
 	private void Awake()
 	{
 		Instance = this;
 
-		_tileDirections = new Dictionary<TileBase, NavDirection>();
-		_tileDirections.Add(navTileNorth, NavDirection.North);
-		_tileDirections.Add(navTileSouth, NavDirection.South);
-		_tileDirections.Add(navTileEast, NavDirection.East);
-		_tileDirections.Add(navTileWest, NavDirection.West);
+		_tileDirectionsStraight = new Dictionary<TileBase, NavDirection>
+		{
+			{
+				navTileNorth, NavDirection.North
+			},
+			{
+				navTileSouth, NavDirection.South
+			},
+			{
+				navTileEast, NavDirection.East
+			},
+			{
+				navTileWest, NavDirection.West
+			}
+		};
+
+		_tileDirectionsTurn = new Dictionary<TileBase, NavDirection>
+		{
+			// left turn
+			{
+				navTileNToW, NavDirection.NToW
+			},
+			{
+				navTileEToN, NavDirection.EToN
+			},
+			{
+				navTileSToE, NavDirection.SToE
+			},
+			{
+				navTileWToS, NavDirection.WToS
+			},
+			// right turn
+			{
+				navTileNToE, NavDirection.NToE
+			},
+			{
+				navTileWToN, NavDirection.WToN
+			},
+			{
+				navTileSToW, NavDirection.SToW
+			},
+			{
+				navTileEToS, NavDirection.EToS
+			}
+		};
 	}
 
 	// Start is called before the first frame update
@@ -84,10 +130,20 @@ public class MainGridSystem : MonoBehaviour
 	{
 		//GetTile gives you the tile at that location.
 		TileBase tile = mainTilemap.GetTile(new Vector3Int(gridCellPos.x, gridCellPos.y, 0));
+
+		if (!tile)
+		{
+			return NavDirection.Default;
+		}
 		
 		NavDirection direction;
-		//maps tile to direction.
-		if (_tileDirections.TryGetValue(tile, out direction))
+		//straight direction
+		if (_tileDirectionsStraight.TryGetValue(tile, out direction))
+		{
+			return direction;
+		}
+		// turning
+		if (_tileDirectionsTurn.TryGetValue(tile, out direction))
 		{
 			return direction;
 		}
