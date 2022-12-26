@@ -23,8 +23,8 @@ public class Monster : MonoBehaviour
     private void Move()
     {
         NavDirection direction = NavigationSystem.Instance.GetTileNavDirection(transform.position);
-        float width = NavigationSystem.Instance.gridLayout.cellSize.x * speed * 0.01f;
-        float height = NavigationSystem.Instance.gridLayout.cellSize.y * speed * 0.01f;
+        float width = NavigationSystem.Instance.gridLayout.cellSize.x * speed * 0.001f;
+        float height = NavigationSystem.Instance.gridLayout.cellSize.y * speed * 0.001f;
         
         switch (direction)
         {
