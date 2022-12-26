@@ -60,4 +60,8 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
-Defence-22/UserSettings/Layouts/CurrentMaximizeLayout.dwlt
+# specific config files
+/Defence-22/UserSettings/Layouts/CurrentMaximizeLayout.dwlt
+/Defence-22/ProjectSettings/BurstAotSettings_StandaloneWindows.json
+/Defence-22/ProjectSettings/CommonBurstAotSettings.json
+
