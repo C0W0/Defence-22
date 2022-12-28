@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 
 public class TileMapUtils
@@ -59,56 +60,59 @@ public class NavigationSystem : MonoBehaviour
 	public TileBase navTileNToE, navTileWToN, navTileSToW, navTileEToS;
 
 
-	private Dictionary<TileBase, NavDirection> _tileDirectionsStraight;
-	private Dictionary<TileBase, NavDirection> _tileDirectionsTurn;
+	private Dictionary<TileBase, Vector2> _tileDirsStraight;
+	private Dictionary<TileBase, Vector2[]> _tileDirsTurn;
 
 	private void Awake()
 	{
 		Instance = this;
+		
+		float xMovement = gridLayout.cellSize.x;
+		float yMovement = gridLayout.cellSize.y;
 
-		_tileDirectionsStraight = new Dictionary<TileBase, NavDirection>
+		_tileDirsStraight = new Dictionary<TileBase, Vector2>
 		{
 			{
-				navTileNorth, NavDirection.North
+				navTileNorth, new Vector2(xMovement, yMovement)
 			},
 			{
-				navTileSouth, NavDirection.South
+				navTileSouth, new Vector2(-xMovement, -yMovement)
 			},
 			{
-				navTileEast, NavDirection.East
+				navTileEast, new Vector2(xMovement, -yMovement)
 			},
 			{
-				navTileWest, NavDirection.West
+				navTileWest, new Vector2(-xMovement, yMovement)
 			}
 		};
-
-		_tileDirectionsTurn = new Dictionary<TileBase, NavDirection>
+		
+		_tileDirsTurn = new Dictionary<TileBase, Vector2[]>
 		{
 			// left turn
 			{
-				navTileNToW, NavDirection.NToW
+				navTileNToW, new []{_tileDirsStraight[navTileNorth], _tileDirsStraight[navTileWest]}
 			},
 			{
-				navTileEToN, NavDirection.EToN
+				navTileEToN, new []{_tileDirsStraight[navTileEast], _tileDirsStraight[navTileNorth]}
 			},
 			{
-				navTileSToE, NavDirection.SToE
+				navTileSToE, new []{_tileDirsStraight[navTileSouth], _tileDirsStraight[navTileEast]}
 			},
 			{
-				navTileWToS, NavDirection.WToS
+				navTileWToS, new []{_tileDirsStraight[navTileWest], _tileDirsStraight[navTileSouth]}
 			},
 			// right turn
 			{
-				navTileNToE, NavDirection.NToE
+				navTileNToE, new []{_tileDirsStraight[navTileNorth], _tileDirsStraight[navTileEast]}
 			},
 			{
-				navTileWToN, NavDirection.WToN
+				navTileWToN, new []{_tileDirsStraight[navTileWest], _tileDirsStraight[navTileNorth]}
 			},
 			{
-				navTileSToW, NavDirection.SToW
+				navTileSToW, new []{_tileDirsStraight[navTileSouth], _tileDirsStraight[navTileWest]}
 			},
 			{
-				navTileEToS, NavDirection.EToS
+				navTileEToS, new []{_tileDirsStraight[navTileEast], _tileDirsStraight[navTileSouth]}
 			}
 		};
 	}
@@ -125,36 +129,82 @@ public class NavigationSystem : MonoBehaviour
 
 
 	}
-
-	public NavDirection GetTileNavDirection(Vector3Int gridCellPos)
+	
+	public Vector2 GetTileNavDirection(Monster caller, Vector2 objectPos)
 	{
-		//GetTile gives you the tile at that location.
+		float speedFactor = Monster.SpeedMultiplier * caller.speed;
+		
+		Vector3Int gridCellPos = gridLayout.LocalToCell(objectPos);
+		
+		//Get the tile at that location.
 		TileBase tile = mainTilemap.GetTile(new Vector3Int(gridCellPos.x, gridCellPos.y, 0));
 
 		if (!tile)
 		{
-			return NavDirection.Default;
+			print($"Monster {caller} stepped on a non-nav tile");
+			caller.directionStatus = DirectionStatus.Straight;
+			return Vector2.zero;
+		}
+
+		//straight direction
+		if (_tileDirsStraight.TryGetValue(tile, out Vector2 direction))
+		{
+			caller.directionStatus = DirectionStatus.Straight;
+			return direction * speedFactor;
 		}
 		
-		NavDirection direction;
-		//straight direction
-		if (_tileDirectionsStraight.TryGetValue(tile, out direction))
-		{
-			return direction;
-		}
 		// turning
-		if (_tileDirectionsTurn.TryGetValue(tile, out direction))
+		if (_tileDirsTurn.TryGetValue(tile, out Vector2[] directions))
 		{
-			return direction;
+			if (caller.directionStatus == DirectionStatus.Straight)
+			{
+				caller.directionStatus = DirectionStatus.WillTurn;
+			}
+				
+			Vector2 tileCentrePos = gridLayout.CellToLocalInterpolated(gridCellPos);
+			// center the y-coordinate
+			tileCentrePos += new Vector2(0, gridLayout.cellSize.y / 2);
+
+			// new position if we use directions[0]
+			Vector2 newPos0 = objectPos + directions[0] * speedFactor;
+			float distance0 = (tileCentrePos - newPos0).magnitude;
+			// new position if we use directions[0]
+			Vector2 newPos1 = objectPos + directions[1] * speedFactor;
+			float distance1 = (tileCentrePos - newPos1).magnitude;
+
+			if (caller.directionStatus == DirectionStatus.WillTurn)
+			{
+				// direction before turn is better than direction after turn & the status is WillTurn:
+				// it should continue with direction before turn until that leads to overshot
+				if (distance0 < distance1)
+				{
+					return directions[0] * speedFactor;
+				}
+				// direction after turn is better than direction before turn & the status is WillTurn:
+				// it should change the direction to after turn (otherwise it will overshoot)
+				else
+				{
+					caller.directionStatus = DirectionStatus.HasTurned;
+					return directions[1] * speedFactor;
+				}
+			}
+
+			if (caller.directionStatus == DirectionStatus.HasTurned)
+			{
+				// if the monster will step foot on a different tile, reset the directionStatus
+				if (mainTilemap.GetTile(gridLayout.LocalToCell(newPos1)) != tile)
+				{
+					caller.directionStatus = DirectionStatus.Straight;
+				}
+				return directions[1] * speedFactor;
+			}
+			
+			Assert.IsTrue(false); // this line should never be reached
+			return Vector2.zero;
 		}
 
-		return NavDirection.Default;
-	}
-
-	
-	public NavDirection GetTileNavDirection(Vector2 objectPos)
-	{
-		Vector3Int gridCellPos = gridLayout.LocalToCell(objectPos);
-		return GetTileNavDirection(gridCellPos);
+		print($"Monster {caller} stepped on a non-nav tile");
+		caller.directionStatus = DirectionStatus.Straight;
+		return Vector2.zero;
 	}
 }
