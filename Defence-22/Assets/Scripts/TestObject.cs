@@ -21,7 +21,7 @@ public class TestObject : MonoBehaviour
 	void Awake()
 	{
 		_spawnCounter = 0;
-		_timeSinceLastSpawn = 0f;
+		_timeSinceLastSpawn = -5f;
 	}
 
 	// Start is called before the first frame update

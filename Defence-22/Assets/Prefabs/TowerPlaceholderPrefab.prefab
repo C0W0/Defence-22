@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7409559265318501624}
-  - component: {fileID: -1109548486823966328}
+  - component: {fileID: 5620666703191439380}
   m_Layer: 0
   m_Name: TowerPlaceholderPrefab
   m_TagString: Untagged
@@ -117,7 +117,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1109548486823966328
+--- !u!114 &5620666703191439380
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,7 +126,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5732873907972388053}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f751ab5986eeba48abd4e33f0c893e2, type: 3}
+  m_Script: {fileID: 11500000, guid: a6c1dbd1dcecc2045b50c5b5ddfd8aa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isPlaced: 0
+  range: 2
+  damage: 0

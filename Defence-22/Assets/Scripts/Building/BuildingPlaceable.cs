@@ -11,7 +11,7 @@ public class BuildingPlaceable : MonoBehaviour
 	private Bounds _bounds;
 	private bool _isDragging;
 
-	private void Awake()
+	public virtual void Awake()
 	{
 		isPlaced = false;
 		_isDragging = false;
@@ -24,14 +24,8 @@ public class BuildingPlaceable : MonoBehaviour
 		BuildingTooltip.Instance.ShowTooltip(this);
 	}
 
-	// Start is called before the first frame update
-	void Start()
-	{
-
-	}
-
 	// Update is called once per frame
-	void Update()
+	public virtual void Update()
 	{
 		if (!isPlaced)
 		{
@@ -46,8 +40,6 @@ public class BuildingPlaceable : MonoBehaviour
 				Vector3Int cellPos = BuildingSystem.Instance.gridLayout.WorldToCell(mousePos);
 				transform.position = BuildingSystem.Instance.gridLayout.CellToLocalInterpolated(cellPos);
 			}
-
-			return;
 		}
 	}
 
