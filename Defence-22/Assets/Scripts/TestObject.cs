@@ -40,8 +40,7 @@ public class TestObject : MonoBehaviour
 		
 		if (_timeSinceLastSpawn > 0.5f && _spawnCounter < spawnNum)
 		{
-			GameObject monster = Instantiate(testMonsterPrefab);
-			monster.transform.position = transform.position;
+			MonsterManager.Instance.SpawnMonster(testMonsterPrefab, transform.position);
 
 			_timeSinceLastSpawn = 0f;
 			_spawnCounter++;
