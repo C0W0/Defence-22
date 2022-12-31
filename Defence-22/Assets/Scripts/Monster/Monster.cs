@@ -48,7 +48,7 @@ public class Monster : MonoBehaviour
 	/**
 	 * Call upon collision with projectile
 	 */
-	public void LoseHealth(float damage, float armor)
+	public void LoseHealth(float damage)
 	{
 		if (health <= 0)
 		{
