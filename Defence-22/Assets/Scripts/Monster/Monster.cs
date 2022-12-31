@@ -12,7 +12,9 @@ public class Monster : MonoBehaviour
 {
 	public const float SpeedMultiplier = 0.001f;
 
-	public int speed;
+	public float speed;
+	public float health;
+	public float armor;
 
 	[HideInInspector]
 	public DirectionStatus directionStatus;
@@ -41,5 +43,17 @@ public class Monster : MonoBehaviour
 	public virtual void DeSpawnInternal()
 	{
 		Destroy(gameObject);
+	}
+
+	/**
+	 * Call upon collision with projectile
+	 */
+	public void LoseHealth(float damage, float armor)
+	{
+		if (health <= 0)
+		{
+			MonsterManager.Instance.DeSpawnMonster(this);
+		}
+		health -= damage * 1/armor;
 	}
 }
