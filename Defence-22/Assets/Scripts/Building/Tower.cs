@@ -50,8 +50,16 @@ public class Tower : BuildingPlaceable
 
 	private bool IsTargetInRange(Vector2 targetPos)
 	{
-		// TODO: implement the range calculation here
-		return (transform.position - (Vector3)targetPos).magnitude <= range;
+		Vector2 towerPosition2D = new Vector2(transform.position.x, transform.position.y);
+		Vector2 delta = targetPos - towerPosition2D;
+
+		float unstretchedDimension = NavigationSystem.Instance.gridLayout.cellSize.x;
+		float stretchedDimension = NavigationSystem.Instance.gridLayout.cellSize.y;
+		float stretchFactor = unstretchedDimension / stretchedDimension;
+
+		float inequality = delta.x * delta.x + stretchFactor * stretchFactor * delta.y * delta.y;
+
+		return Mathf.Sqrt(inequality) <= range;
 	}
 
 	private void Track(Monster trackedEntity)
