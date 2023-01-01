@@ -40,7 +40,8 @@ public class TestObject : MonoBehaviour
 		
 		if (_timeSinceLastSpawn > 0.5f && _spawnCounter < spawnNum)
 		{
-			MonsterManager.Instance.SpawnMonster(testMonsterPrefab, transform.position);
+			Monster monster = MonsterManager.Instance.SpawnMonster(testMonsterPrefab, transform.position);
+			monster.gameObject.name = $"Monster {_spawnCounter}";
 
 			_timeSinceLastSpawn = 0f;
 			_spawnCounter++;

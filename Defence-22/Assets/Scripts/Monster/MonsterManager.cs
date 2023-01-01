@@ -7,12 +7,12 @@ public class MonsterManager : MonoBehaviour
 {
     public static MonsterManager Instance;
     
-    public LinkedList<Monster> allMonsters;
+    public HashSet<Monster> allMonsters;
 
     private void Awake()
     {
         Instance = this;
-        allMonsters = new LinkedList<Monster>();
+        allMonsters = new HashSet<Monster>();
     }
     // Start is called before the first frame update
     void Start()
@@ -32,7 +32,7 @@ public class MonsterManager : MonoBehaviour
         monsterObj.transform.position = position;
 
         Monster monster = monsterObj.GetComponent<Monster>(); 
-        allMonsters.AddLast(monster);
+        allMonsters.Add(monster);
 
         return monster;
     }

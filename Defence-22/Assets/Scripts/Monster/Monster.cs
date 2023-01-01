@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -18,7 +19,13 @@ public class Monster : MonoBehaviour
 
 	[HideInInspector]
 	public DirectionStatus directionStatus;
+	public HashSet<Tower> trackingTowers;
 
+	public virtual void Awake()
+	{
+		trackingTowers = new HashSet<Tower>();
+	}
+	
 	// Start is called before the first frame update
 	public virtual void Start()
 	{
@@ -38,10 +45,16 @@ public class Monster : MonoBehaviour
 	}
 
 	/**
+	 * Erase the 
 	 * Do not call this method unless you are 100% sure what you are doing
 	 */
 	public virtual void DeSpawnInternal()
 	{
+		foreach (Tower tower in trackingTowers)
+		{
+			tower.RemoveFromTrackingList(this);
+		}
+		
 		Destroy(gameObject);
 	}
 
