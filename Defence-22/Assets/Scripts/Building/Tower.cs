@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,12 +51,8 @@ public class Tower : BuildingPlaceable
 
 	private bool IsTargetInRange(Vector2 targetPos)
 	{
-		Vector2 towerPosition2D = new Vector2(transform.position.x, transform.position.y);
-		Vector2 delta = targetPos - towerPosition2D;
-
-		float unstretchedDimension = NavigationSystem.Instance.gridLayout.cellSize.x;
-		float stretchedDimension = NavigationSystem.Instance.gridLayout.cellSize.y;
-		float stretchFactor = unstretchedDimension / stretchedDimension;
+		Vector2 delta = targetPos - (Vector2)transform.position;
+		float stretchFactor = NavigationSystem.StretchFactor;
 
 		float inequality = delta.x * delta.x + stretchFactor * stretchFactor * delta.y * delta.y;
 

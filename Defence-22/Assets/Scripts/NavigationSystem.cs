@@ -51,6 +51,7 @@ public class NavigationSystem : MonoBehaviour
 {
 
 	public static NavigationSystem Instance;
+	public static float StretchFactor;
 
 	public GridLayout gridLayout;
 	public Tilemap mainTilemap;
@@ -69,6 +70,8 @@ public class NavigationSystem : MonoBehaviour
 		
 		float xMovement = gridLayout.cellSize.x;
 		float yMovement = gridLayout.cellSize.y;
+
+		StretchFactor = xMovement / yMovement;
 
 		_tileDirsStraight = new Dictionary<TileBase, Vector2>
 		{
