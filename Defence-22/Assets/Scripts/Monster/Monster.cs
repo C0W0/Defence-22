@@ -61,7 +61,7 @@ public class Monster : MonoBehaviour
 	/**
 	 * Call upon collision with projectile
 	 */
-	public void LoseHealth(int damage)
+	public void TakeDamage(int damage)
 	{
 		health -= damage * 1/armor;
 		if (health <= 0)
