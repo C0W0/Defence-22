@@ -45,7 +45,7 @@ public class Monster : MonoBehaviour
 	}
 
 	/**
-	 * Erase the 
+	 * Deregister the monster from all references except for MonsterManager and destroy the entity
 	 * Do not call this method unless you are 100% sure what you are doing
 	 */
 	public virtual void DeSpawnInternal()
