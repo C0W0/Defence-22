@@ -76,7 +76,7 @@ public class Tower : BuildingPlaceable
 
 	protected virtual void Attack()
 	{
-		_currentTarget.LoseHealth(damage);
+		_currentTarget.TakeDamage(damage);
 	}
 
 	private bool IsTargetInRange(Vector2 targetPos)
