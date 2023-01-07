@@ -11,11 +11,14 @@ public enum DirectionStatus
 
 public class Monster : MonoBehaviour
 {
+	public Collider2D monsterCollider;
+
 	public const float SpeedMultiplier = 0.001f;
 
 	public float speed;
 	public float health;
 	public float armor;
+	public float damage;
 
 	[HideInInspector]
 	public DirectionStatus directionStatus;
@@ -29,7 +32,7 @@ public class Monster : MonoBehaviour
 	// Start is called before the first frame update
 	public virtual void Start()
 	{
-		
+
 	}
 
 	// Update is called once per frame
@@ -61,12 +64,17 @@ public class Monster : MonoBehaviour
 	/**
 	 * Call upon collision with projectile
 	 */
-	public void LoseHealth(float damage)
+	public void LoseHealth()
 	{
+		health -= damage * 1 / armor;
 		if (health <= 0)
 		{
 			MonsterManager.Instance.DeSpawnMonster(this);
 		}
-		health -= damage * 1/armor;
+	}
+
+	private void OnTriggerEnter2D()
+	{
+		LoseHealth();
 	}
 }

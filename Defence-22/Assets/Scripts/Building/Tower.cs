@@ -19,31 +19,36 @@ public struct TrackingLinkedListNode<T>
 public class Tower : BuildingPlaceable
 {
 	[SerializeField]
-	private int range, damage;
-	[SerializeField]
-	private float coolDown;
+	protected int range, damage;
 
 	private Dictionary<Monster, TrackingLinkedListNode<Monster>> _trackedMonsters;
-	private Monster _currentTarget, _lastTracked;
-	private float _timeSinceLastAttack;
+
+	protected Monster _currentTarget;
+	private Monster _lastTracked;
+
+	public Vector3 towerPosition;
+
+	public HashSet<Projectile> towerProjectiles;
 
 	public override void Awake()
 	{
 		base.Awake();
 		_trackedMonsters = new Dictionary<Monster, TrackingLinkedListNode<Monster>>();
-		_timeSinceLastAttack = coolDown;
+		towerProjectiles = new HashSet<Projectile>();
 	}
 
 	// Start is called before the first frame update
-	void Start()
+	public virtual void Start()
 	{
-
+		towerPosition = transform.position;
 	}
 
 	// Update is called once per frame
 	public override void Update()
 	{
 		base.Update();
+
+		towerPosition = transform.position;
 
 		if (!isPlaced)
 		{
@@ -52,9 +57,9 @@ public class Tower : BuildingPlaceable
 		
 		foreach (Monster monster in MonsterManager.Instance.allMonsters)
 		{
+			monster.damage = damage;
 			bool isTracked = _trackedMonsters.ContainsKey(monster);
 			bool isInRange = IsTargetInRange(monster.transform.position);
-
 			if (!isTracked && isInRange)
 			{
 				Track(monster);
@@ -64,19 +69,6 @@ public class Tower : BuildingPlaceable
 				UnTrack(monster);
 			}
 		}
-
-		_timeSinceLastAttack += Time.deltaTime;
-		
-		if (_currentTarget && _timeSinceLastAttack >= coolDown)
-		{
-			Attack();
-			_timeSinceLastAttack = 0f;
-		}
-	}
-
-	protected virtual void Attack()
-	{
-		_currentTarget.LoseHealth(damage);
 	}
 
 	private bool IsTargetInRange(Vector2 targetPos)
@@ -93,7 +85,7 @@ public class Tower : BuildingPlaceable
 	{
 		trackedEntity.trackingTowers.Add(this);
 		_trackedMonsters.Add(trackedEntity, new TrackingLinkedListNode<Monster>(_lastTracked, null));
-
+		
 		if (_lastTracked)
 		{
 			var newLastTrackedNode = 
@@ -162,6 +154,6 @@ public class Tower : BuildingPlaceable
 		}
 		print(String.Join(",", names));
 	}
-	
 	#endregion
 }
+
