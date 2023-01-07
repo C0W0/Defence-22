@@ -48,7 +48,7 @@ public class Monster : MonoBehaviour
 	}
 
 	/**
-	 * Erase the 
+	 * Deregister the monster from all references except for MonsterManager and destroy the entity
 	 * Do not call this method unless you are 100% sure what you are doing
 	 */
 	public virtual void DeSpawnInternal()
@@ -64,9 +64,11 @@ public class Monster : MonoBehaviour
 	/**
 	 * Call upon collision with projectile
 	 */
-	public void LoseHealth()
+
+
+	public void TakeDamage()
 	{
-		health -= damage * 1 / armor;
+		health -= damage * 1/armor;
 		if (health <= 0)
 		{
 			MonsterManager.Instance.DeSpawnMonster(this);
@@ -75,6 +77,6 @@ public class Monster : MonoBehaviour
 
 	private void OnTriggerEnter2D()
 	{
-		LoseHealth();
+		TakeDamage();
 	}
 }

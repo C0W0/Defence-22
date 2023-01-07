@@ -143,7 +143,7 @@ public class Tower : BuildingPlaceable
 
 	#region debug
 
-	private void PrintLinkedList()
+	private string PrintLinkedList()
 	{
 		LinkedList<string> names = new LinkedList<string>();
 		Monster curr = _currentTarget;
@@ -152,7 +152,10 @@ public class Tower : BuildingPlaceable
 			names.AddLast(curr.name);
 			curr = _trackedMonsters[curr].next;
 		}
-		print(String.Join(",", names));
+
+		string list = String.Join(",", names);
+		print(list);
+		return list;
 	}
 	#endregion
 }
