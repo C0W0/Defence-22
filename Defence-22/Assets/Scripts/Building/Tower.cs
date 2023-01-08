@@ -23,18 +23,15 @@ public class Tower : BuildingPlaceable
 
 	private Dictionary<Monster, TrackingLinkedListNode<Monster>> _trackedMonsters;
 
-	protected Monster _currentTarget;
+	protected Monster CurrentTarget;
 	private Monster _lastTracked;
 
 	public Vector3 towerPosition;
-
-	public HashSet<Projectile> towerProjectiles;
 
 	public override void Awake()
 	{
 		base.Awake();
 		_trackedMonsters = new Dictionary<Monster, TrackingLinkedListNode<Monster>>();
-		towerProjectiles = new HashSet<Projectile>();
 	}
 
 	// Start is called before the first frame update
@@ -57,7 +54,6 @@ public class Tower : BuildingPlaceable
 		
 		foreach (Monster monster in MonsterManager.Instance.allMonsters)
 		{
-			monster.damage = damage;
 			bool isTracked = _trackedMonsters.ContainsKey(monster);
 			bool isInRange = IsTargetInRange(monster.transform.position);
 			if (!isTracked && isInRange)
@@ -93,9 +89,9 @@ public class Tower : BuildingPlaceable
 			_trackedMonsters[_lastTracked] = newLastTrackedNode;
 		}
 
-		if (!_currentTarget)
+		if (!CurrentTarget)
 		{
-			_currentTarget = trackedEntity;
+			CurrentTarget = trackedEntity;
 		}
 		
 		_lastTracked = trackedEntity;
@@ -125,9 +121,9 @@ public class Tower : BuildingPlaceable
 			}
 		}
 		
-		if (trackedEntity == _currentTarget)
+		if (trackedEntity == CurrentTarget)
 		{
-			_currentTarget = node.next;
+			CurrentTarget = node.next;
 		}
 		else
 		{
@@ -146,7 +142,7 @@ public class Tower : BuildingPlaceable
 	private string PrintLinkedList()
 	{
 		LinkedList<string> names = new LinkedList<string>();
-		Monster curr = _currentTarget;
+		Monster curr = CurrentTarget;
 		while (curr)
 		{
 			names.AddLast(curr.name);

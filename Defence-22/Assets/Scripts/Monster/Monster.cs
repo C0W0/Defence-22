@@ -18,7 +18,6 @@ public class Monster : MonoBehaviour
 	public float speed;
 	public float health;
 	public float armor;
-	public float damage;
 
 	[HideInInspector]
 	public DirectionStatus directionStatus;
@@ -64,19 +63,12 @@ public class Monster : MonoBehaviour
 	/**
 	 * Call upon collision with projectile
 	 */
-
-
-	public void TakeDamage()
+	public void TakeDamage(int damage)
 	{
 		health -= damage * 1/armor;
 		if (health <= 0)
 		{
 			MonsterManager.Instance.DeSpawnMonster(this);
 		}
-	}
-
-	private void OnTriggerEnter2D()
-	{
-		TakeDamage();
 	}
 }

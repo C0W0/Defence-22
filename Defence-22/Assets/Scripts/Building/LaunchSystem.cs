@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class LaunchSystem : Tower
 {
+    public GameObject ammo;
+    
     [SerializeField]
     private float coolDown;
 
+    private HashSet<Projectile> _towerProjectiles;
     private float _timeSinceLastAttack;
-
-    public GameObject ammo;
 
     public override void Awake()
     {
         base.Awake();
         _timeSinceLastAttack = coolDown;
+        _towerProjectiles = new HashSet<Projectile>();
     }
 
     public override void Start()
@@ -28,7 +30,7 @@ public class LaunchSystem : Tower
 
         _timeSinceLastAttack += Time.deltaTime;
 
-        if (_currentTarget && _timeSinceLastAttack >= coolDown)
+        if (CurrentTarget && _timeSinceLastAttack >= coolDown)
         {
             Attack();
             _timeSinceLastAttack = 0f;
@@ -46,11 +48,18 @@ public class LaunchSystem : Tower
         projectile.target = target;
 
         //Add to the list of projectiles.
-        towerProjectiles.Add(projectile);
+        _towerProjectiles.Add(projectile);
+        
+        projectile.Initialize(this, damage);
     }
 
     public void Attack()
     {
-        SpawnProjectile(ammo, towerPosition, _currentTarget);
+        SpawnProjectile(ammo, towerPosition, CurrentTarget);
+    }
+
+    public void RemoveProjectile(Projectile projectile)
+    {
+        _towerProjectiles.Remove(projectile);
     }
 }

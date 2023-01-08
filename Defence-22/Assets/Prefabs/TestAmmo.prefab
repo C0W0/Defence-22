@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7398698120120322093}
   - component: {fileID: -7782821992521094675}
   m_Layer: 0
-  m_Name: circle
+  m_Name: TestAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,20 +96,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1260731912064174061}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d18d87264ced4a5592728ab0a80028e, type: 3}
+  m_Script: {fileID: 11500000, guid: d4c2f566e5ec1114180f2346a7aa06fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileCollider: {fileID: 7398698120120322093}
-  projectileRigidBody: {fileID: -7782821992521094675}
-  stretchFactor: 0
-  speedMultiplier: 0.5
-  spawnPoint: {x: 0, y: 0, z: 0}
-  distance: 0
-  travelRange: 3
+  speed: 20
+  travelRange: 4
   target: {fileID: 0}
-  targetPos: {x: 0, y: 0}
-  direction: {x: 0, y: 0}
-  magnitude: 0
 --- !u!58 &7398698120120322093
 CircleCollider2D:
   m_ObjectHideFlags: 0

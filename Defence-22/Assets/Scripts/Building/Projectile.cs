@@ -4,59 +4,56 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public Collider2D projectileCollider;
-    public Rigidbody2D projectileRigidBody;
-
-    public float stretchFactor;
-
-    public float speedMultiplier;
-    public Vector3 spawnPoint;
-    public float distance;
-    public float travelRange;
-
+    [SerializeField]
+    private int speed;
+    [SerializeField]
+    private float travelRange;
+    
+    [HideInInspector]
     public Monster target;
-    public Vector2 targetPos;
-    public Vector2 direction;
-    public float magnitude;
+    
+    private int _damage;
+    private float _stretchFactor, _speedMultiplier;
+    private float _distance;
+    private Vector3 _spawnPoint;
+    private Vector2 _direction;
+    private LaunchSystem _launcher;
     
     public void Awake()
     {
-        stretchFactor = NavigationSystem.StretchFactor;
+        _stretchFactor = NavigationSystem.StretchFactor;
+        _speedMultiplier = speed*Monster.SpeedMultiplier;
+        _spawnPoint = transform.position;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        spawnPoint = transform.position;
-
         //Projectile is spawned when target is within range, so start with a direction.
-        direction = target.transform.position - transform.position;
+        _direction = target.transform.position - transform.position;
+    }
+
+    public void Initialize(LaunchSystem launcher, int damage)
+    {
+        _launcher = launcher;
+        _damage = damage;
     }
 
     // Update is called once per frame
     public void Update()
     {
-        LaunchProjectile();
-    }
+        Vector2 delta = transform.position - _spawnPoint;
+        delta.y *= _stretchFactor;
+        _distance = delta.magnitude;
 
-    public void Move(Vector2 direction)
-    {
-        transform.Translate(direction*speedMultiplier);
-    }
-
-    public void LaunchProjectile()
-    {
-        Vector2 delta = transform.position - spawnPoint;
-        distance = Mathf.Sqrt(delta.x * delta.x + stretchFactor * stretchFactor * delta.y * delta.y);
-
-        if (target && distance <= travelRange)
+        if (target && _distance <= travelRange)
         {
-            direction = target.transform.position - transform.position;
+            _direction = target.transform.position - transform.position;
 
-            Move(Unitize(direction));
+            Move(_direction/_direction.magnitude);
         }
-        else if(!target && distance <= travelRange) { //Even with no targets, keep moving in the same direction.
-            Move(Unitize(direction));
+        else if(!target && _distance <= travelRange) { //Even with no targets, keep moving in the same direction.
+            Move(_direction/_direction.magnitude);
         }
         else
         {
@@ -64,23 +61,26 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    //Have the direction as a unit vector constantly.
-    public Vector2 Unitize(Vector2 direction)
+    public void Move(Vector2 direction)
     {
-        magnitude = Mathf.Sqrt(direction.x * direction.x + stretchFactor * stretchFactor * direction.y * direction.y);
-        Vector2 unitVector = direction / magnitude;
-
-        return unitVector;
+        Vector2 displacement = direction * _speedMultiplier;
+        transform.Translate(displacement);
     }
 
     public void DespawnProjectile()
     {
+        _launcher.RemoveProjectile(this);
         Destroy(gameObject);
     }
 
     //Upon collider contact, despawn.
-    private void OnTriggerEnter2D()
+    private void OnTriggerEnter2D(Collider2D col)
     {
-        DespawnProjectile();
+        Monster monster = col.gameObject.GetComponent<Monster>();
+        if (monster)
+        {
+            monster.TakeDamage(_damage);
+            DespawnProjectile();
+        }
     }
 }
