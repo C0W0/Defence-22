@@ -23,7 +23,6 @@ public class Projectile : MonoBehaviour
     {
         _stretchFactor = NavigationSystem.StretchFactor;
         _speedMultiplier = speed*Monster.SpeedMultiplier;
-        _spawnPoint = transform.position;
     }
 
     // Start is called before the first frame update
@@ -37,6 +36,7 @@ public class Projectile : MonoBehaviour
     {
         _launcher = launcher;
         _damage = damage;
+        _spawnPoint = transform.position;
     }
 
     // Update is called once per frame
@@ -61,13 +61,13 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    public void Move(Vector2 direction)
+    protected void Move(Vector2 direction)
     {
         Vector2 displacement = direction * _speedMultiplier;
         transform.Translate(displacement);
     }
 
-    public void DespawnProjectile()
+    protected void DespawnProjectile()
     {
         _launcher.RemoveProjectile(this);
         Destroy(gameObject);
