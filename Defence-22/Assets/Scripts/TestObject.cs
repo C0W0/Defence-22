@@ -49,6 +49,6 @@ public class TestObject : MonoBehaviour
 		else
 		{
 			_timeSinceLastSpawn += Time.deltaTime;
-		}
+		}	
 	}
 }
