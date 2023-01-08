@@ -540,6 +540,7 @@ MonoBehaviour:
   testMonsterPrefab: {fileID: 635038322058969984, guid: ae1e2fb6bb3009b48b32f568b8439116, type: 3}
   spawnNum: 5
   shouldSpawn: 1
+  fatola: {fileID: 1260731912064174061, guid: 00bfcc49e10774c1ea6b1b4a7edfa58b, type: 3}
 --- !u!212 &560758985
 SpriteRenderer:
   m_ObjectHideFlags: 0

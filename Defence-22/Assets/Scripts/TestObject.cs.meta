@@ -3,7 +3,9 @@ guid: 7f67e03061c0a7d46b520a9f56cfe580
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - testMonsterPrefab: {instanceID: 0}
+  - fatola: {fileID: 9138737659550353652, guid: 3d9bdeb3d59da45f69711d8cdec1a1d4, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

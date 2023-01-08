@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6112449611329163626}
   - component: {fileID: 5095863332495877671}
   - component: {fileID: 7424153774241045902}
+  - component: {fileID: 4177818819680550350}
   m_Layer: 0
   m_Name: TestMonster
   m_TagString: Untagged
@@ -97,7 +98,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb565c26d593a4b4fbdfb65674c88b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  monsterCollider: {fileID: 4177818819680550350}
+  speed: 10
   health: 2
   armor: 1
+  damage: 0
   directionStatus: 0
+--- !u!58 &4177818819680550350
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635038322058969984}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.53
