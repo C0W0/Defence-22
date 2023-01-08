@@ -57,10 +57,4 @@ public class BuildingSystem : MonoBehaviour
         BoundsInt area = new BoundsInt(position, Vector3Int.one);
         TileMapUtils.ClearArea(area, buildingGridMap);
     }
-
-    // move this to a separate shop system
-    public void CreateBuildingDrag()
-    {
-        GameObject newBuilding = Instantiate(testBuildingPrefab);
-    }
 }

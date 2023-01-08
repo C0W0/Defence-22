@@ -20,12 +20,15 @@ public class Tower : BuildingPlaceable
 {
 	[SerializeField]
 	protected int range, damage;
+	public String name;
+	public Sprite icon;
 
 	private Dictionary<Monster, TrackingLinkedListNode<Monster>> _trackedMonsters;
 
 	protected Monster CurrentTarget;
 	private Monster _lastTracked;
 
+	[HideInInspector]
 	public Vector3 towerPosition;
 
 	public override void Awake()
