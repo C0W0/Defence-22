@@ -9,7 +9,7 @@ public class CurrencySystem : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI currencyText;
 
-    private int _currencyAmount;
+    private int _currencyAmount = 150;
 
     public static CurrencySystem Instance;
 
@@ -21,7 +21,7 @@ public class CurrencySystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        UpdateCurrency(0);
     }
 
     // Update is called once per frame
