@@ -20,7 +20,7 @@ public class Tower : BuildingPlaceable
 {
 	[SerializeField]
 	protected int range, damage;
-	public String name;
+	public string towerName;
 	public Sprite icon;
 
 	private Dictionary<Monster, TrackingLinkedListNode<Monster>> _trackedMonsters;
@@ -55,7 +55,7 @@ public class Tower : BuildingPlaceable
 			return;
 		}
 		
-		foreach (Monster monster in MonsterManager.Instance.allMonsters)
+		foreach (Monster monster in MonsterManager.Instance.allSpawnedMonsters)
 		{
 			bool isTracked = _trackedMonsters.ContainsKey(monster);
 			bool isInRange = IsTargetInRange(monster.transform.position);

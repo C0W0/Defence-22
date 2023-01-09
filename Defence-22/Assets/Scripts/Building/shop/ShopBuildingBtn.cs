@@ -7,32 +7,32 @@ using TMPro;
 
 public class ShopBuildingBtn : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject buildingPrefab;
-    [SerializeField]
-    private TextMeshProUGUI nameText;
+	[SerializeField]
+	private GameObject buildingPrefab;
+	[SerializeField]
+	private TextMeshProUGUI nameText;
 
-    void Awake()
-    {
-        Tower tower = buildingPrefab.GetComponent<Tower>();
-        GetComponent<Image>().sprite = tower.icon;
-        nameText.text = tower.name;
-    }
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	void Awake()
+	{
+		Tower tower = buildingPrefab.GetComponent<Tower>();
+		GetComponent<Image>().sprite = tower.icon;
+		nameText.text = tower.towerName;
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	// Start is called before the first frame update
+	void Start()
+	{
 
-    public void OnBtnClick()
-    {
-        ShopSystem.Instance.CreateBuildingDrag(buildingPrefab);
-    }
+	}
+
+	// Update is called once per frame
+	void Update()
+	{
+
+	}
+
+	public void OnBtnClick()
+	{
+		ShopSystem.Instance.CreateBuildingDrag(buildingPrefab);
+	}
 }

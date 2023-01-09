@@ -7,12 +7,19 @@ public class MonsterManager : MonoBehaviour
 {
     public static MonsterManager Instance;
     
-    public HashSet<Monster> allMonsters;
+    public HashSet<Monster> allSpawnedMonsters;
+    public Dictionary<string, GameObject> monsterPrefabs;
+
+    public GameObject testMonsterPrefab;
 
     private void Awake()
     {
         Instance = this;
-        allMonsters = new HashSet<Monster>();
+        allSpawnedMonsters = new HashSet<Monster>();
+        monsterPrefabs = new Dictionary<string, GameObject>();
+        
+        monsterPrefabs.Add("distraction1", testMonsterPrefab);
+        monsterPrefabs.Add("distraction2", testMonsterPrefab);
     }
     // Start is called before the first frame update
     void Start()
@@ -32,14 +39,14 @@ public class MonsterManager : MonoBehaviour
         monsterObj.transform.position = position;
 
         Monster monster = monsterObj.GetComponent<Monster>(); 
-        allMonsters.Add(monster);
+        allSpawnedMonsters.Add(monster);
 
         return monster;
     }
 
     public void DeSpawnMonster(Monster monster)
     {
-        allMonsters.Remove(monster);
+        allSpawnedMonsters.Remove(monster);
         
         monster.DeSpawnInternal();
     }

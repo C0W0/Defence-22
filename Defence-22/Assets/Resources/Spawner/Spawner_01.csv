@@ -1,0 +1,4 @@
+Wave,Cd,Monsters
+1,5,distraction1:5&delay:0.6; distraction2:1&delay:2
+2,20,distraction2:3&delay:1
+3,6,distraction2:5&delay:1; distraction2:1&delay:3

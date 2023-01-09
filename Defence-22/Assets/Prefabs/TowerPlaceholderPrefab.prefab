@@ -132,7 +132,7 @@ MonoBehaviour:
   isPlaced: 0
   range: 4
   damage: 1
-  name: Placeholder Tower
+  towerName: Placeholder
   icon: {fileID: 21300000, guid: 7c26ec255042d9f43908c44601ce696a, type: 3}
   towerPosition: {x: 0, y: 0, z: 0}
   ammo: {fileID: 1260731912064174061, guid: 00bfcc49e10774c1ea6b1b4a7edfa58b, type: 3}
