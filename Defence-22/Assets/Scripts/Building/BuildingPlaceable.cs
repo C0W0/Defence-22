@@ -77,6 +77,7 @@ public class BuildingPlaceable : MonoBehaviour
 		if (TryPlaceBuilding())
 		{
 			BuildingTooltip.Instance.HideTooltip();
+			CurrencySystem.Instance.UpdateCurrency(-cost);
 		}
 		else
 		{

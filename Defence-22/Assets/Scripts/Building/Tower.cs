@@ -72,9 +72,10 @@ public class Tower : BuildingPlaceable
 		if (isPlaced)
 		{
 			Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			if (_bounds.Contains(mousePos))
+			if (_bounds.Contains(mousePos) && Input.GetMouseButtonDown(0))
 			{
-				// if hover, display sell/upgrade menu for building
+				// if click, display sell/upgrade menu for building
+				ModifyTooltip.Instance.ShowTooltip(this);
 			}
 		}
 	}

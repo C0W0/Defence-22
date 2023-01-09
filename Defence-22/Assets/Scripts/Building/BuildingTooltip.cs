@@ -35,11 +35,7 @@ public class BuildingTooltip : MonoBehaviour
 		gameObject.SetActive(true);
 		transform.position = _uiCamera.WorldToScreenPoint(caller.transform.position);
 
-		placeBtn.onClick.AddListener(() =>
-		{
-			caller.Place();
-			CurrencySystem.Instance.UpdateCurrency(-caller.cost);
-		});
+		placeBtn.onClick.AddListener(caller.Place);
 		cancelBtn.onClick.AddListener(() =>
 		{
 			Destroy(caller.gameObject);
