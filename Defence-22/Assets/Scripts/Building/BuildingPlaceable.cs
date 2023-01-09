@@ -7,8 +7,8 @@ public class BuildingPlaceable : MonoBehaviour
 {
 	[HideInInspector]
 	public bool isPlaced;
-
-	private Bounds _bounds;
+	public int cost;
+	protected Bounds _bounds;
 	private bool _isDragging;
 
 	public virtual void Awake()
@@ -77,6 +77,7 @@ public class BuildingPlaceable : MonoBehaviour
 		if (TryPlaceBuilding())
 		{
 			BuildingTooltip.Instance.HideTooltip();
+			CurrencySystem.Instance.UpdateCurrency(-cost);
 		}
 		else
 		{

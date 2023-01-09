@@ -30,9 +30,11 @@ public class ShopBuildingBtn : MonoBehaviour
 	{
 
 	}
-
-	public void OnBtnClick()
-	{
-		ShopSystem.Instance.CreateBuildingDrag(buildingPrefab);
-	}
+    public void OnBtnClick()
+    {
+        if (CurrencySystem.Instance.currencyAmount >= buildingPrefab.GetComponent<Tower>().cost)
+        {
+            ShopSystem.Instance.CreateBuildingDrag(buildingPrefab);
+        }
+    }
 }
