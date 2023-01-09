@@ -18,7 +18,7 @@ public struct TrackingLinkedListNode<T>
 
 public class Tower : BuildingPlaceable
 {
-	[SerializeField]
+	[SerializeField] 
 	protected int range, damage;
 	public String name;
 	public Sprite icon;
@@ -66,6 +66,15 @@ public class Tower : BuildingPlaceable
 			else if (isTracked && !isInRange)
 			{
 				UnTrack(monster);
+			}
+		}
+		
+		if (isPlaced)
+		{
+			Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			if (_bounds.Contains(mousePos))
+			{
+				// if hover, display sell/upgrade menu for building
 			}
 		}
 	}

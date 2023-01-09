@@ -9,7 +9,7 @@ public class CurrencySystem : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI currencyText;
 
-    private int _currencyAmount = 150;
+    public int currencyAmount = 150;
 
     public static CurrencySystem Instance;
 
@@ -32,7 +32,8 @@ public class CurrencySystem : MonoBehaviour
 
     public void UpdateCurrency(int change)
     {
-        _currencyAmount += change;
-        currencyText.text = _currencyAmount.ToString();
+        currencyAmount += change;
+        currencyText.text = currencyAmount.ToString();
     }
+    
 }
