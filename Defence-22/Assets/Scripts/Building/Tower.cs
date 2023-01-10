@@ -5,6 +5,10 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+// TODO: fix bugs... 
+// 1. if multiple towers are clicked, they are all sold
+// 2. if you click outside of tower the sell button does not disappear
+
 public struct TrackingLinkedListNode<T>
 {
 	public T prev;
@@ -66,16 +70,6 @@ public class Tower : BuildingPlaceable
 			else if (isTracked && !isInRange)
 			{
 				UnTrack(monster);
-			}
-		}
-		
-		if (isPlaced)
-		{
-			Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			if (_bounds.Contains(mousePos) && Input.GetMouseButtonDown(0))
-			{
-				// if click, display sell/upgrade menu for building
-				ModifyTooltip.Instance.ShowTooltip(this);
 			}
 		}
 	}
@@ -149,7 +143,7 @@ public class Tower : BuildingPlaceable
 		
 		_trackedMonsters.Remove(trackedEntity);
 	}
-
+	
 	#region debug
 
 	private string PrintLinkedList()

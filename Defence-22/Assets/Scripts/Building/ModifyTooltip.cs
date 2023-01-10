@@ -38,6 +38,7 @@ public class ModifyTooltip : MonoBehaviour
         sellBtn.onClick.AddListener(() =>
         {
             BuildingSystem.Instance.RemoveBuilding(caller.transform.position);
+            BuildingManager.Instance.UntrackTower(caller);
             Destroy(caller.gameObject);
             int sellCost = caller.cost * 2 / 3;
             CurrencySystem.Instance.UpdateCurrency(sellCost);

@@ -78,6 +78,7 @@ public class BuildingPlaceable : MonoBehaviour
 		{
 			BuildingTooltip.Instance.HideTooltip();
 			CurrencySystem.Instance.UpdateCurrency(-cost);
+			BuildingManager.Instance.TrackTower(this);
 		}
 		else
 		{
@@ -97,4 +98,10 @@ public class BuildingPlaceable : MonoBehaviour
 
 		return true;
 	}
+
+	public bool IsInBound(Vector2 position)
+	{
+		return (_bounds.Contains(position));
+	}
+	
 }

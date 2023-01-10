@@ -9,7 +9,7 @@ public class HealthSystem : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI healthText;
 
-    private int _healthAmount = 100;
+    private int _healthAmount;
 
     public static HealthSystem Instance;
 
